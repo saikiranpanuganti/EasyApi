@@ -7,18 +7,108 @@
 //
 
 import UIKit
+import EasyApi
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        getData()
+        
+        dispatchGroupTask()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    func getData() {
+        var headers : [String: String] = [:]
+        headers["Content-Type"] = "application/json"
 
+        let parameters : [String: String] = [:]
+
+        Network.request(url: "https://jsonplaceholder.typicode.com/posts", method: .get, headers: headers, parameters: parameters) { data, response, error in
+            print(data as Any, error as Any)
+        }
+    }
+    
+    func dispatchGroupTask() {
+        var headers : [String: String] = [:]
+        headers["Content-Type"] = "application/json"
+        
+        let task1 = DispatchTask(url: "https://jsonplaceholder.typicode.com/photos", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T1")
+        
+        let task2 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts/1", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T2")
+        
+        let task3 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts/1/comments", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T3")
+        
+        let task4 = DispatchTask(url: "https://jsonplaceholder.typicode.com/comments", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T4")
+        
+        let task5 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T5")
+        
+        let groupDispatch = GroupDispatch()
+        groupDispatch.delegate = self
+        groupDispatch.dispatchTasks(tasks: [task1, task2, task3, task4, task5])
+    }
 }
+
+extension ViewController: GroupDispatchDelegate {
+    func taskResponse(data: Data?, response: URLResponse?, error: Error?, task: String) {
+        if task == "T1" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let photosData = (jsonData as! [[String: Any]])
+                    print("photos count is : ", photosData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T2" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let title = (jsonData as! [String: Any])["title"] as! String
+                    print("title is : ", title, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+                
+            }
+        }else if task == "T3" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let email = ((jsonData as! [[String: Any]])[0])["email"] as! String
+                    print("email is : ", email, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T4" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let commentsData = (jsonData as! [[String: Any]])
+                    print("comments count is : ", commentsData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let postsData = (jsonData as! [[String: Any]])
+                    print("posts count is : ", postsData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func notifyCompletion() {
+        print("Tasks completed")
+    }
+}
+
 

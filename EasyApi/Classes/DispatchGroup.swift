@@ -7,17 +7,18 @@
 
 import Foundation
 
-protocol GroupDispatchDelegate: AnyObject {
+public protocol GroupDispatchDelegate: AnyObject {
     func taskResponse(data: Data?, response: URLResponse?, error: Error?, task: String)
     func notifyCompletion()
 }
 
 public class GroupDispatch {
-    weak var delegate: GroupDispatchDelegate?
-    var count: Int = 0
+    public weak var delegate: GroupDispatchDelegate?
     let dispatchQueue = DispatchQueue(label: "Com.Network.Queue", qos: .userInteractive)
+    
+    public init() {}
 
-    func dispatchTasks(tasks: [DispatchTask]) {
+    public func dispatchTasks(tasks: [DispatchTask]) {
         let group = DispatchGroup()
         
         for task in tasks {

@@ -8,7 +8,7 @@
 import Foundation
 
 public class Network {
-    static func request(url: String, method: HttpMethod, headers: [String: String]?, parameters: [String: String]?, completionHandler:@escaping ((Data?, URLResponse?, Error?)->Void)) {
+    public static func request(url: String, method: HttpMethod, headers: [String: String]?, parameters: [String: String]?, completionHandler:@escaping ((Data?, URLResponse?, Error?)->Void)) {
         let urlRequest = Request.request(url: url, method: method, headers: headers, parameters: parameters)
         
         if let error = urlRequest.1 {
