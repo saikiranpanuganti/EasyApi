@@ -28,11 +28,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0CD266E636D36CC9AD524AE1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		0CD266E636D36CC9AD524AE1 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		10300494CA0D43D966585B0D /* Pods-EasyApi_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyApi_Tests.release.xcconfig"; path = "Target Support Files/Pods-EasyApi_Tests/Pods-EasyApi_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		122B08E60B424BAFA6CD91C3 /* Pods-EasyApi_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyApi_Example.debug.xcconfig"; path = "Target Support Files/Pods-EasyApi_Example/Pods-EasyApi_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		30DC933A3727807AB71D01B4 /* Pods_EasyApi_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyApi_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E5C25425FF669CD6FBE965F /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		4E5C25425FF669CD6FBE965F /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		5AF3CB52EB1159C54E86B13E /* Pods-EasyApi_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyApi_Tests.debug.xcconfig"; path = "Target Support Files/Pods-EasyApi_Tests/Pods-EasyApi_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* EasyApi_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyApi_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,7 +45,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		72CC2A0415E70D7886139FCD /* Pods_EasyApi_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyApi_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9B677DDFEF99A3503E510CCA /* EasyApi.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = EasyApi.podspec; path = ../EasyApi.podspec; sourceTree = "<group>"; };
+		9B677DDFEF99A3503E510CCA /* EasyApi.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = EasyApi.podspec; path = ../EasyApi.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A36135AFCEC81A7C49B16D2B /* Pods-EasyApi_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyApi_Example.release.xcconfig"; path = "Target Support Files/Pods-EasyApi_Example/Pods-EasyApi_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,7 +156,6 @@
 				5AF3CB52EB1159C54E86B13E /* Pods-EasyApi_Tests.debug.xcconfig */,
 				10300494CA0D43D966585B0D /* Pods-EasyApi_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -227,6 +226,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
