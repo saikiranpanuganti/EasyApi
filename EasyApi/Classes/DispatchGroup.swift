@@ -14,30 +14,67 @@ public protocol GroupDispatchDelegate: AnyObject {
 
 public class GroupDispatch {
     public weak var delegate: GroupDispatchDelegate?
-    let dispatchQueue = DispatchQueue(label: "Com.Network.Queue", qos: .userInteractive)
+    private let dispatchQueue = DispatchQueue(label: "Com.Network.Queue", qos: .userInteractive)
+    private var barrierTasks: [[Int]] = []
+    private var dispatchTasks: [DispatchTask] = []
+    private var index: Int = 0 {
+        didSet {
+            dispatchBarrierTasks()
+        }
+    }
     
     public init() {}
 
     public func dispatchTasks(tasks: [DispatchTask]) {
+        dispatchTasks = tasks
+        var barrierTask: Bool = true
+        var nonBarrierTasks: [Int] = []
+        
+        for (index, task) in tasks.enumerated() {
+            if task.barrier {
+                if !barrierTask {
+                    barrierTasks.append(nonBarrierTasks)
+                }
+                
+                barrierTask = true
+                nonBarrierTasks = []
+                barrierTasks.append([index])
+            }else {
+                nonBarrierTasks.append(index)
+                barrierTask = false
+                
+                if index == tasks.count - 1 {
+                    barrierTasks.append(nonBarrierTasks)
+                }
+            }
+        }
+        
+        index = 0
+    }
+    
+    func dispatchBarrierTasks() {
+        let tasks = barrierTasks[index]
         let group = DispatchGroup()
         
         for task in tasks {
             group.enter()
-            let selfDelegate = delegate//, count: count)
+            let context = (delegate: delegate, dispatchTasks: dispatchTasks)
             
             dispatchQueue.async {
-                Network.request(url: task.url, method: task.httpMethod, headers: task.headers, parameters: task.parameters) { data, response, error in
-                    selfDelegate?.taskResponse(data: data, response: response, error: error, task: task.taskTitle)
+                Network.request(url: context.dispatchTasks[task].url, method: context.dispatchTasks[task].httpMethod, headers: context.dispatchTasks[task].headers, parameters: context.dispatchTasks[task].parameters) { data, response, error in
+                    context.delegate?.taskResponse(data: data, response: response, error: error, task: context.dispatchTasks[task].taskTitle)
                     group.leave()
                 }
             }
-            
         }
-        
-        let selfDelegate = delegate
-        
-        group.notify(queue: .main) {
-            selfDelegate?.notifyCompletion()
+            
+        group.notify(queue: dispatchQueue) {
+            if self.index == self.barrierTasks.count - 1 {
+                self.delegate?.notifyCompletion()
+            }else {
+                self.index += 1
+                print(self.index)
+            }
         }
     }
 }

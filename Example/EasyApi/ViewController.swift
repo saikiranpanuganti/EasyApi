@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         var headers : [String: String] = [:]
         headers["Content-Type"] = "application/json"
         
-        let task1 = DispatchTask(url: "https://jsonplaceholder.typicode.com/photos", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T1")
+        let task1 = DispatchTask(url: "https://jsonplaceholder.typicode.com/photos", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T1", barrier: true)
         
         let task2 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts/1", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T2")
         
@@ -44,9 +44,19 @@ class ViewController: UIViewController {
         
         let task5 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T5")
         
+        let task6 = DispatchTask(url: "https://jsonplaceholder.typicode.com/photos", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T6", barrier: true)
+        
+        let task7 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts/1", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T7", barrier: true)
+        
+        let task8 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts/1/comments", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T8")
+        
+        let task9 = DispatchTask(url: "https://jsonplaceholder.typicode.com/comments", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T9")
+        
+        let task10 = DispatchTask(url: "https://jsonplaceholder.typicode.com/posts", httpMethod: .get, headers: headers, parameters: nil, taskTitle: "T10", barrier: true)
+        
         let groupDispatch = GroupDispatch()
         groupDispatch.delegate = self
-        groupDispatch.dispatchTasks(tasks: [task1, task2, task3, task4, task5])
+        groupDispatch.dispatchTasks(tasks: [task1, task2, task3, task4, task5, task6, task7, task8, task9, task10])
     }
 }
 
@@ -84,6 +94,57 @@ extension ViewController: GroupDispatchDelegate {
                 }
             }
         }else if task == "T4" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let commentsData = (jsonData as! [[String: Any]])
+                    print("comments count is : ", commentsData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T5"{
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let postsData = (jsonData as! [[String: Any]])
+                    print("posts count is : ", postsData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T6" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let photosData = (jsonData as! [[String: Any]])
+                    print("photos count is : ", photosData.count, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T7" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let title = (jsonData as! [String: Any])["title"] as! String
+                    print("title is : ", title, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+                
+            }
+        }else if task == "T8" {
+            if let data = data {
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
+                    let email = ((jsonData as! [[String: Any]])[0])["email"] as! String
+                    print("email is : ", email, "task ", task)
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }else if task == "T8" {
             if let data = data {
                 do {
                     let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
